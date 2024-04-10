@@ -4,7 +4,9 @@ using Core.Models;
 using Core.Specification;
 using E_commerce_APIs.Dtos;
 using E_commerce_APIs.Errors;
+using E_commerce_APIs.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace E_commerce_APIs.Controllers
 { 
     public class ProductsController : BaseApiController
@@ -25,14 +27,20 @@ namespace E_commerce_APIs.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
-            var spec = new ProductsWithTypesAndBrandsSpecification();
-            
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+
+            var countSpec = new ProductsWithFiltersForCountSpecification(productParams);
+
+            var totalItems = await _productsRepo.CountAsync(countSpec);
+
             var products = await _productsRepo.ListAsync(spec);
 
-            return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+            var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(products);
 
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex,
+                productParams.PageSize, totalItems, data));
         }
         [HttpGet("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
