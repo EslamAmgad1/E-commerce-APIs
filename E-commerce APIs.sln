@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34607.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-commerce APIs", "E-commerce APIs\E-commerce APIs.csproj", "{181451AE-C55B-4E53-B623-664D7986759D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-commerce APIs", "E-commerce APIs\E-commerce APIs.csproj", "{181451AE-C55B-4E53-B623-664D7986759D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{36E1B011-1E19-49A2-B533-5C95A4C147E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{36E1B011-1E19-49A2-B533-5C95A4C147E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9F85AF4E-11AA-4ED0-ABF2-49A8041E6F27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{9F85AF4E-11AA-4ED0-ABF2-49A8041E6F27}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RedisWithDocker", "RedisWithDocker", "{9F8732C1-704B-4DD1-9850-7F24A23A8C5F}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
