@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using E_commerce_APIs.Errors;
 using StackExchange.Redis;
+using Infrastructure.Services;
 
 namespace E_commerce_APIs.Extensions
 {
@@ -21,6 +22,7 @@ namespace E_commerce_APIs.Extensions
             });
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.Configure<ApiBehaviorOptions>(options =>
