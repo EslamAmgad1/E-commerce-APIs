@@ -8,7 +8,7 @@ using E_commerce_APIs.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace E_commerce_APIs.Controllers
-{ 
+{
     public class ProductsController : BaseApiController
     {
         private readonly IGenericRepository<ProductBrand> _productBrandRepo;
@@ -26,15 +26,15 @@ namespace E_commerce_APIs.Controllers
             _productBrandRepo = productBrandRepo;
         }
 
+        [Cached(600)]
         [HttpGet]
-        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams productParams)
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts(
+            [FromQuery] ProductSpecParams productParams)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
-
             var countSpec = new ProductsWithFiltersForCountSpecification(productParams);
 
             var totalItems = await _productsRepo.CountAsync(countSpec);
-
             var products = await _productsRepo.ListAsync(spec);
 
             var data = _mapper.Map<IReadOnlyList<ProductToReturnDto>>(products);
@@ -42,6 +42,8 @@ namespace E_commerce_APIs.Controllers
             return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex,
                 productParams.PageSize, totalItems, data));
         }
+
+        [Cached(600)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -56,17 +58,18 @@ namespace E_commerce_APIs.Controllers
             return _mapper.Map<Product, ProductToReturnDto>(product);
         }
 
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
         {
             return Ok(await _productBrandRepo.ListAllAsync());
         }
 
+        [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductTypes()
         {
             return Ok(await _productTypeRepo.ListAllAsync());
         }
-
     }
 }
